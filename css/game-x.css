@@ -1,5 +1,7 @@
 /* CSS specific to Game X */
 .tile {
+    min-width: 50px;
+    min-height: 50px;
     width:5vw;
     height:5vw;
     margin:1vw;
@@ -15,6 +17,8 @@
 .game-wrapper {
     width:42vw;
     height:42vw;
+    min-width: 420px;
+    min-height: 420px;
     position:absolute;
     left:29vw;
     top:5vw;

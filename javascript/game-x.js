@@ -47,7 +47,8 @@ var gameData = {
     firstPicture: -1,
     secondTile: -1,
     secondPicture: -1,
-    pairs: {firstHalf: [], secondHalf: [], remaining: 18}
+    pairs: {firstHalf: [], secondHalf: [], remaining: 18},
+    gameOver: false
 };
 
 var gameSetup = function() {
@@ -77,6 +78,9 @@ var pairUp = function() {
 }
 
 var toggle = function(tile) {
+    if (gameData.gameOver) {
+        return;
+    }
     if (gameData.newTile) {
         $('#tile' + tile).show()
         gameData.newTile = false;
@@ -113,8 +117,9 @@ var findPictureFromTile = function(tile) {
 }
 
 var gameOver = function() {
-    $('#game-container').append("<p>you win</p>");
-    $('#game-container').hide();
+    $('.tile').css('background-image',"url(\'../media/success.png\')");
+    gameData.gameOver = true;
+    $('.pic').fadeOut(1000);
     console.log('game over')
 }
 
