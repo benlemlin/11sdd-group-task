@@ -1,1 +1,21 @@
 /* CSS specific to Game X */
+.tile {
+    width:5vw;
+    height:5vw;
+    margin:1vw;
+    background-image:url("../media/cover.png");
+    float:left;
+    background-repeat: round;
+}
+.pic {
+    background-repeat:round;
+    height:100%;
+    width:100%;
+}
+.game-wrapper {
+    width:42vw;
+    height:42vw;
+    position:absolute;
+    left:29vw;
+    top:5vw;
+}
