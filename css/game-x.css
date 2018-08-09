@@ -9,6 +9,7 @@
     float:left;
     background-repeat: round;
     opacity: 0.8;
+    cursor:pointer;
 }
 .pic {
     background-repeat:round;

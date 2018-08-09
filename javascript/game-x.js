@@ -116,6 +116,7 @@ $(document).ready(function() {
     
     gameSetup();
     $('.tile').on('click', toggle);
+    $('.pic').on('click',reload);
 });
 
 var gameData = {
@@ -126,7 +127,8 @@ var gameData = {
     secondPicture: -1,
     pairs: {firstHalf: [], secondHalf: [], remaining: 18},
     images: ['anchor','balance-scale','basketball-ball','bell','bicycle','bomb','chess-pawn','child','cocktail','dove','fish','gamepad','gem','helicopter','infinity','lightbulb','plane'],
-    gameOver: false
+    gameOver: false,
+    reloadTiles: []
 };
 
 var gameSetup = function() {
@@ -158,6 +160,8 @@ var pairUp = function() {
 var toggle = function(e) {
     var tile = parseInt(e.target.id);
     if (gameData.gameOver) {
+        $('.pic').css('background-image','url(\'../media/replay.png\')');
+        $('#tile' + tile).show();
         return;
     }
     if (gameData.newTile) {
@@ -196,13 +200,17 @@ var findPictureFromTile = function(tile) {
 }
 
 var gameOver = function() {
-    $('.tile').css('background-image',"url(\'../media/success.png\')");
+    $('.tile').css('background-image','url(\'../media/success.png\')');
     gameData.gameOver = true;
     $('.pic').fadeOut(2000);
     console.log('game over')
 }
 
-
+var reload = function() {
+  if (gameData.gameOver) {
+    location.reload();
+  }
+}
 
 // Debug functions
 //Toggles all tiles
