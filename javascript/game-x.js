@@ -164,6 +164,9 @@ var toggle = function(e) {
         $('#tile' + tile).show();
         return;
     }
+    if (isNaN(tile)) {
+        return;   
+    }
     if (gameData.newTile) {
         $('#tile' + tile).show()
         gameData.newTile = false;
