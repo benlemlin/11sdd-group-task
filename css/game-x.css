@@ -8,6 +8,7 @@
     background-image:url("../media/cover.png");
     float:left;
     background-repeat: round;
+    opacity: 0.8;
 }
 .pic {
     background-repeat:round;
@@ -17,8 +18,8 @@
 .game-wrapper {
     width:42vw;
     height:42vw;
-    min-width: 420px;
-    min-height: 420px;
+    min-width: 400px;
+    min-height: 400px;
     position:absolute;
     left:29vw;
     top:5vw;

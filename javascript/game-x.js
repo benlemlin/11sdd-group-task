@@ -1,44 +1,121 @@
+var particlesConfig = {
+    "particles": {
+      "number": {
+        "value": 80,
+        "density": {
+          "enable": true,
+          "value_area": 800
+        }
+      },
+      "color": {
+        "value": "#aaa"
+      },
+      "shape": {
+        "type": "circle",
+        "stroke": {
+          "width": 0,
+          "color": "#000000"
+        },
+        "polygon": {
+          "nb_sides": 5
+        },
+        "image": {
+          "src": "img/github.svg",
+          "width": 100,
+          "height": 100
+        }
+      },
+      "opacity": {
+        "value": 0.7,
+        "random": false,
+        "anim": {
+          "enable": false,
+          "speed": 1,
+          "opacity_min": 0.1,
+          "sync": false
+        }
+      },
+      "size": {
+        "value": 3,
+        "random": true,
+        "anim": {
+          "enable": false,
+          "speed": 40,
+          "size_min": 0.1,
+          "sync": false
+        }
+      },
+      "line_linked": {
+        "enable": true,
+        "distance": 150,
+        "color": "#bbb",
+        "opacity": 0.7,
+        "width": 1
+      },
+      "move": {
+        "enable": true,
+        "speed": 2,
+        "direction": "none",
+        "random": false,
+        "straight": false,
+        "out_mode": "out",
+        "bounce": false,
+        "attract": {
+          "enable": false,
+          "rotateX": 600,
+          "rotateY": 1200
+        }
+      }
+    },
+    "interactivity": {
+      "detect_on": "canvas",
+      "events": {
+        "onhover": {
+          "enable": false,
+          "mode": "repulse"
+        },
+        "onclick": {
+          "enable": false,
+          "mode": "push"
+        },
+        "resize": true
+      },
+      "modes": {
+        "grab": {
+          "distance": 400,
+          "line_linked": {
+            "opacity": 1
+          }
+        },
+        "bubble": {
+          "distance": 400,
+          "size": 40,
+          "duration": 2,
+          "opacity": 8,
+          "speed": 3
+        },
+        "repulse": {
+          "distance": 200,
+          "duration": 0.4
+        },
+        "push": {
+          "particles_nb": 4
+        },
+        "remove": {
+          "particles_nb": 2
+        }
+      }
+    },
+    "retina_detect": true
+}
+
 $(document).ready(function() {
     console.log("Document ready");
+    particlesJS('particles-js', particlesConfig);
+    console.log('particles-js loaded')
+    
     gameSetup();
-
-    $('#tile0-wrap').click(function(){toggle(0)})
-    $('#tile1-wrap').click(function(){toggle(1)})
-    $('#tile2-wrap').click(function(){toggle(2)})
-    $('#tile3-wrap').click(function(){toggle(3)})
-    $('#tile4-wrap').click(function(){toggle(4)})
-    $('#tile5-wrap').click(function(){toggle(5)})
-    $('#tile6-wrap').click(function(){toggle(6)})
-    $('#tile7-wrap').click(function(){toggle(7)})
-    $('#tile8-wrap').click(function(){toggle(8)})
-    $('#tile9-wrap').click(function(){toggle(9)})
-    $('#tile10-wrap').click(function(){toggle(10)})
-    $('#tile11-wrap').click(function(){toggle(11)})
-    $('#tile12-wrap').click(function(){toggle(12)})
-    $('#tile13-wrap').click(function(){toggle(13)})
-    $('#tile14-wrap').click(function(){toggle(14)})
-    $('#tile15-wrap').click(function(){toggle(15)})
-    $('#tile16-wrap').click(function(){toggle(16)})
-    $('#tile17-wrap').click(function(){toggle(17)})
-    $('#tile18-wrap').click(function(){toggle(18)})
-    $('#tile19-wrap').click(function(){toggle(19)})
-    $('#tile20-wrap').click(function(){toggle(20)})
-    $('#tile21-wrap').click(function(){toggle(21)})
-    $('#tile22-wrap').click(function(){toggle(22)})
-    $('#tile23-wrap').click(function(){toggle(23)})
-    $('#tile24-wrap').click(function(){toggle(24)})
-    $('#tile25-wrap').click(function(){toggle(25)})
-    $('#tile26-wrap').click(function(){toggle(26)})
-    $('#tile27-wrap').click(function(){toggle(27)})
-    $('#tile28-wrap').click(function(){toggle(28)})
-    $('#tile29-wrap').click(function(){toggle(29)})
-    $('#tile30-wrap').click(function(){toggle(30)})
-    $('#tile31-wrap').click(function(){toggle(31)})
-    $('#tile32-wrap').click(function(){toggle(32)})
-    $('#tile33-wrap').click(function(){toggle(33)})
-    $('#tile34-wrap').click(function(){toggle(34)})
-    $('#tile35-wrap').click(function(){toggle(35)})
-    $('#tile36-wrap').click(function(){toggle(36)})
+    $('.tile').on('click', toggle);
 });
 
 var gameData = {
@@ -48,6 +125,7 @@ var gameData = {
     secondTile: -1,
     secondPicture: -1,
     pairs: {firstHalf: [], secondHalf: [], remaining: 18},
+    images: ['anchor','balance-scale','basketball-ball','bell','bicycle','bomb','chess-pawn','child','cocktail','dove','fish','gamepad','gem','helicopter','infinity','lightbulb','plane'],
     gameOver: false
 };
 
@@ -77,7 +155,8 @@ var pairUp = function() {
     }
 }
 
-var toggle = function(tile) {
+var toggle = function(e) {
+    var tile = parseInt(e.target.id);
     if (gameData.gameOver) {
         return;
     }
@@ -103,8 +182,8 @@ var toggle = function(tile) {
             }
                 return;
         }
-        $('#tile' + gameData.firstTile).fadeOut(1000);
-        $('#tile' + gameData.secondTile).fadeOut(1000);
+            $('#tile' + gameData.firstTile).fadeOut(1100);
+            $('#tile' + gameData.secondTile).fadeOut(1100);
     }
 }
 
@@ -119,7 +198,7 @@ var findPictureFromTile = function(tile) {
 var gameOver = function() {
     $('.tile').css('background-image',"url(\'../media/success.png\')");
     gameData.gameOver = true;
-    $('.pic').fadeOut(1000);
+    $('.pic').fadeOut(2000);
     console.log('game over')
 }
 
