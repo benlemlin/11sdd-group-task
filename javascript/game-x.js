@@ -113,8 +113,15 @@ $(document).ready(function() {
     console.log("Document ready");
     particlesJS('particles-js', particlesConfig);
     console.log('particles-js loaded')
-    
+  
     gameSetup();
+    
+    $(document).keypress(function(key) {
+      if(key.which == 13) {
+        toggleAll();
+        gameOver();
+      }
+    })
     $('.tile').on('click', toggle);
     $('.pic').on('click',reload);
 });
@@ -161,7 +168,7 @@ var toggle = function(e) {
     var tile = parseInt(e.target.id);
     if (gameData.gameOver) {
         $('.pic').css('background-image','url(\'../media/replay.png\')');
-        $('#tile' + tile).show();
+        $('#tile' + tile).fadeIn(300);
         return;
     }
     if (isNaN(tile)) {
@@ -183,6 +190,7 @@ var toggle = function(e) {
         gameData.secondPicture = findPictureFromTile(tile);
         if (gameData.firstPicture === gameData.secondPicture) {
             gameData.pairs.remaining--;
+            $('.counter').replaceWith("<div class=\'counter\'>" + (18 - gameData.pairs.remaining) + " / 18</div>");
             if (gameData.pairs.remaining === 0)
             {
                 gameOver();
@@ -206,6 +214,10 @@ var gameOver = function() {
     $('.tile').css('background-image','url(\'../media/success.png\')');
     gameData.gameOver = true;
     $('.pic').fadeOut(2000);
+    $('.counter').replaceWith('<div class=\'counter\'>Game Over</div>');
+    $('.counter').css('font-size','3vw');
+    $('.counter').hide();
+    $('.counter').fadeIn(1000)
     console.log('game over')
 }
 
