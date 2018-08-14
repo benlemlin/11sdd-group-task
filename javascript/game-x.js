@@ -114,96 +114,101 @@ $(document).ready(function() {
     particlesJS('particles-js', particlesConfig);
     console.log('particles-js loaded')
   
+    // Initial Game Setup
     gameSetup();
-    
     $(document).keypress(function(key) {
+      //checks for enter keypress
       if(key.which == 13) {
-        toggleAll();
+        // shows all tiles
+        showAll();
+        // ends the game
         gameOver();
       }
     })
+    // on tile click
     $('.tile').on('click', toggle);
+    // on subtile picture
     $('.pic').on('click',reload);
 });
 
+// holds all the current and starting information for game instance
 var gameData = {
-    newTile: true,
-    firstTile: -1,
-    firstPicture: -1,
-    secondTile: -1,
-    secondPicture: -1,
-    pairs: {firstHalf: [], secondHalf: [], remaining: 18},
-    images: ['anchor','balance-scale','basketball-ball','bell','bicycle','bomb','chess-pawn','child','cocktail','dove','fish','gamepad','gem','helicopter','infinity','lightbulb','plane'],
-    gameOver: false,
-    reloadTiles: []
+    newTile: true, // determines if this is the first tile selected in a pair
+    firstTile: -1, // determines the first tile picture picked in a pair
+    firstPicture: -1, // determines the first tile picture in a pair
+    secondTile: -1, // determines the second tile picked in a pair
+    secondPicture: -1, // determines the second tile picture in a pair
+    pairs: {firstHalf: [], secondHalf: [], remaining: 18}, // lists the collections of pairs and the number of pairs remaining
+    gameOver: false, // determins if the game is over
 };
 
 var gameSetup = function() {
+  // pairs up tiles at random
     pairUp()
     for (var i = 0; i < 18; i++) {
+      // asigns pictures to pairs
         $('#tile' + gameData.pairs.firstHalf[i]).css('background-image','url(\"../media/' + i + '.png\")');
         $('#tile' + gameData.pairs.secondHalf[i]).css('background-image','url(\"../media/' + i + '.png\")');
     }
+    // hides all tiles
     hideAll();
     console.log(gameData)
 }
 
 var pairUp = function() {
     var picks = [];
+    // defines an array of integers from 0 to 35 inclusive
     for (var i = 0; i < 36; i++) {
         picks[i] = i;
     }
     var newPick = 0;
     for (var i = 0; i < 18; i++) {
-        newPick = Math.floor(Math.random() * picks.length);
-        gameData.pairs.firstHalf[i] = picks[newPick];
-        picks.splice(newPick,1);
-        newPick = Math.floor(Math.random() * picks.length);
-        gameData.pairs.secondHalf[i] = picks[newPick];
-        picks.splice(newPick,1);
+        newPick = Math.floor(Math.random() * picks.length); // chooses a random object in the array
+        gameData.pairs.firstHalf[i] = picks[newPick]; // adds that object as the first part of a pair
+        picks.splice(newPick,1); // removes the object from the original array
+        newPick = Math.floor(Math.random() * picks.length); // chooses another random object in the array
+        gameData.pairs.secondHalf[i] = picks[newPick]; // adds that object as the second part of a pair
+        picks.splice(newPick,1); // removes the object from the original array
     }
 }
 
-var toggle = function(e) {
-    var tile = parseInt(e.target.id);
-    if (gameData.gameOver) {
-        $('.pic').css('background-image','url(\'../media/replay.png\')');
+var toggle = function(tile) {
+    var tile = parseInt(tile.target.id); // collects the tile number
+    if (gameData.gameOver) { // checks if the game is still running
+        $('.pic').css('background-image','url(\'../media/replay.png\')'); // shows the replay button
         $('#tile' + tile).fadeIn(300);
         return;
     }
-    if (isNaN(tile)) {
+    if (isNaN(tile)) { // checks if selected tile has already been found or selected
         return;   
     }
-    if (gameData.newTile) {
-        $('#tile' + tile).show()
+    if (gameData.newTile) { // checks if selected tile is first tile choice
+        $('#tile' + tile).show() // shows the tile
         gameData.newTile = false;
         gameData.firstTile = tile;
-        gameData.firstPicture = findPictureFromTile(tile);
+        gameData.firstPicture = findPictureFromTile(tile); // finds the picture associated with the current tile
     }
     else {
-        if (tile === gameData.firstTile) {
-            return;
-        }
-        $('#tile' + tile).show()
+        $('#tile' + tile).show() // shows selected tile
         gameData.newTile = true;
         gameData.secondTile = tile;
         gameData.secondPicture = findPictureFromTile(tile);
-        if (gameData.firstPicture === gameData.secondPicture) {
-            gameData.pairs.remaining--;
-            $('.counter').replaceWith("<div class=\'counter\'>" + (18 - gameData.pairs.remaining) + " / 18</div>");
-            if (gameData.pairs.remaining === 0)
+        if (gameData.firstPicture === gameData.secondPicture) { // checks if tiles match by image
+            gameData.pairs.remaining--; // ticks down the number of tiles remaining
+            $('.counter').replaceWith("<div class=\'counter\'>" + (18 - gameData.pairs.remaining) + " / 18</div>"); // updates scoreboard
+            if (gameData.pairs.remaining === 0) // checks if game is over
             {
-                gameOver();
+                gameOver(); // ends the game
             }
                 return;
         }
-            $('#tile' + gameData.firstTile).fadeOut(1100);
+            $('#tile' + gameData.firstTile).fadeOut(1100); // fades tiles if not equal
             $('#tile' + gameData.secondTile).fadeOut(1100);
     }
 }
 
 var findPictureFromTile = function(tile) {
-    for (var i = 0; i < 18; i++) {
+    for (var i = 0; i < 18; i++) { // loops through images and find match
         if (gameData.pairs.firstHalf[i] === tile || gameData.pairs.secondHalf[i] === tile) {
             return i;
         }
@@ -211,9 +216,9 @@ var findPictureFromTile = function(tile) {
 }
 
 var gameOver = function() {
-    $('.tile').css('background-image','url(\'../media/success.png\')');
+    $('.tile').css('background-image','url(\'../media/success.png\')'); // applies trophy picture
     gameData.gameOver = true;
-    $('.pic').fadeOut(2000);
+    $('.pic').fadeOut(2000); // fades the game tiles
     $('.counter').replaceWith('<div class=\'counter\'>Game Over</div>');
     $('.counter').css('font-size','3vw');
     $('.counter').hide();
@@ -223,7 +228,7 @@ var gameOver = function() {
 
 var reload = function() {
   if (gameData.gameOver) {
-    location.reload();
+    location.reload(); // reloads the page
   }
 }
 
